@@ -1,4 +1,34 @@
 import { CommonConstants } from "../common/CommonConstants"
+import { promptAction, router } from "@kit.ArkUI";
+import { loginRequest } from "../common/NetWork";
+import { connection } from "@kit.NetworkKit";
+import { BusinessError } from "@kit.BasicServicesKit";
+import { hilog } from "@kit.PerformanceAnalysisKit";
+
+function judgeHasNet(): boolean {
+  try {
+    let netHandle = connection.getDefaultNetSync();
+    if (!netHandle || netHandle.netId < 100) {
+      return false;
+    }
+
+    let netCapability = connection.getNetCapabilitiesSync(netHandle);
+    let cap = netCapability.networkCap;
+    if (!cap) {
+      return false;
+    }
+
+    for (let em of cap) {
+      if (connection.NetCap.NET_CAPABILITY_VALIDATED === em) {
+        return true;
+      }
+    }
+  } catch (e) {
+    let err = e as BusinessError;
+    hilog.error(0x0000, 'testTag', 'Failed to load the content. Cause: %{public}s', JSON.stringify(err) ?? '');
+  }
+  return false;
+}
 
 // xxx.ets
 @CustomDialog
@@ -6,8 +36,30 @@ import { CommonConstants } from "../common/CommonConstants"
 export struct LoginDialog {
   @State inputContent: string = '';
   @State password: string = '';
+  @StorageProp('NetJudge.currNet.isUseful') isHasNetwork: boolean = judgeHasNet();
   controller?: CustomDialogController
-  loginVerification() {
+  loginVerification(): boolean {
+    if (!this.inputContent || !this.password) {
+      promptAction.showToast({
+        message: '请输入登录信息',
+        duration: 2000
+      });
+      return false
+    }
+
+    if (!this.isHasNetwork) {
+      promptAction.showToast({
+        message: '网络连接错误',
+        duration: 2000
+      });
+      return false
+    }
+    // AppStorage.setOrCreate('isLogin', true);
+    // router.pushUrl({
+    //   url: 'pages/Index'
+    // });
+    loginRequest(this.inputContent, this.password)
+    return true
 
   }
   build() {
@@ -15,7 +67,7 @@ export struct LoginDialog {
       TextInput({
         placeholder: '用户名'
       })
-        .type(InputType.PhoneNumber)
+        .type(InputType.Normal)
         .enterKeyType(EnterKeyType.Next)
         .enableKeyboardOnFocus(true)
         .defaultFocus(true)
@@ -30,7 +82,6 @@ export struct LoginDialog {
         })
         .borderRadius($r('app.float.textInput_borderRadius'))
         .borderColor($r('sys.color.ohos_id_color_warning'))
-        .inputFilter('^[0-9*]+$')
         .onChange((value: string) => {
           this.inputContent = value;
         })
@@ -68,8 +119,9 @@ export struct LoginDialog {
         Button('登录')
           .onClick(() => {
             if (this.controller != undefined) {
-
-              this.controller.close()
+              if (this.loginVerification()) {
+                this.controller.close()
+              }
             }
           }).backgroundColor(0xffffff).fontColor(Color.Red)
       }.margin({ bottom: 10 })

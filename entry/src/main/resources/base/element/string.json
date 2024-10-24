@@ -11,6 +11,14 @@
     {
       "name": "EntryAbility_label",
       "value": "label"
+    },
+    {
+      "name": "reason",
+      "value": "允许应用在登录场景中使用Internet网络"
+    },
+    {
+      "name": "getNetworkInfo",
+      "value": "允许应用在登录场景中获取网络信息"
     }
   ]
 }

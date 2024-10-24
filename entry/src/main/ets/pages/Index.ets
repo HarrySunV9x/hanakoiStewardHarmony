@@ -1,10 +1,23 @@
+import { loginOut } from '../common/NetWork';
 import { LoginDialog } from './LoginDialog';
+
+// 持久化状态, https://developer.huawei.com/consumer/cn/doc/harmonyos-guides-V5/arkts-appstorage-V5
+AppStorage.link('isLogin');
+AppStorage.link('loginToken');
+AppStorage.link('username');
+PersistentStorage.persistProp("isLogin", false);
+PersistentStorage.persistProp("loginToken", '');
+PersistentStorage.persistProp("username", '');
 
 @Entry
 @Component
 struct Index {
-  @State username: string = '';
   @State DialogState: boolean = false;
+
+  // 获取状态
+  @StorageLink('isLogin') loginStatus: boolean = false;
+  @StorageLink('loginToken') loginToken: boolean = false;
+  @StorageLink('username') username: boolean = false;
 
   dialogController: CustomDialogController | null = new CustomDialogController({
     builder: LoginDialog({}),
@@ -30,8 +43,10 @@ struct Index {
   build() {
     Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.SpaceBetween, alignItems:ItemAlign.Center}) {
       Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.Center, alignItems:ItemAlign.Center }) {
-        if (this.username) {
-          Text('欢迎 ' + this.username)
+        if (this.loginStatus) {
+          Text('欢迎 ' + this.username + ', 再次点击退出登录').onClick(()=>{
+            loginOut();
+          })
         } else {
           Text('点击登录').onClick(()=>{
             if (this.dialogController != null) {
@@ -50,7 +65,5 @@ struct Index {
     .height('100%')
     .width('100%')
     .padding(20)
-
-
   }
 }
