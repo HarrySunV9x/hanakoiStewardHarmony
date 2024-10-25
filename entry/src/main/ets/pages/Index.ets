@@ -1,3 +1,4 @@
+import { Bill } from '../common/Bill/Bill';
 import { Login } from '../common/Login/Login';
 
 // 持久化状态, https://developer.huawei.com/consumer/cn/doc/harmonyos-guides-V5/arkts-appstorage-V5
@@ -11,14 +12,23 @@ PersistentStorage.persistProp("username", '');
 @Entry
 @Component
 struct Index {
+  // 获取状态
+  @StorageLink('isLogin') loginStatus: boolean = false;
+  @StorageLink('loginToken') loginToken: string = '';
+  @StorageLink('username') username: string = '';
+
   build() {
-    Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.SpaceBetween, alignItems:ItemAlign.Center}) {
-      Login()
+    Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.SpaceBetween, alignItems: ItemAlign.Center }) {
+      Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.Center, alignItems: ItemAlign.Center }) {
+        Login()
+      }.width('90%').height('10%').backgroundColor(0xF5DEB3)
+
       Flex({ direction: FlexDirection.Column }) {
 
       }.width('90%').height('20%').backgroundColor(0xF5DEB3)
-      Flex({ direction: FlexDirection.Column }) {
 
+      Flex({ direction: FlexDirection.Column }) {
+        Bill()
       }.width('90%').height('60%').backgroundColor(0xF5DEB3)
     }
     .height('100%')

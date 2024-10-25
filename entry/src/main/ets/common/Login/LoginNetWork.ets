@@ -1,5 +1,6 @@
 import { http } from '@kit.NetworkKit';
 import { BusinessError } from '@kit.BasicServicesKit';
+import { loginUrl } from '../URL';
 
 interface Record {
   avatar: string;
@@ -26,7 +27,7 @@ export function loginRequest(username: string, password: string) {
     console.info('header: ' + JSON.stringify(header));
   });
   httpRequest.request(
-    "LOGIN_URL",
+    loginUrl,
     {
       method: http.RequestMethod.POST,
       header: {
@@ -48,8 +49,8 @@ export function loginRequest(username: string, password: string) {
       const resultString = data.result;
       if (typeof resultString === 'string') {
         const responseData: ResponseData = JSON.parse(resultString);
-        AppStorage.setOrCreate('loginToken', JSON.stringify(responseData.token));
-        AppStorage.setOrCreate('username', JSON.stringify(responseData.record.username));
+        AppStorage.setOrCreate('loginToken', responseData.token);
+        AppStorage.setOrCreate('username', responseData.record.username);
       }
       httpRequest.destroy();
     } else {
@@ -65,4 +66,6 @@ export function loginOut() {
   AppStorage.setOrCreate('isLogin', false);
   AppStorage.setOrCreate('loginToken', "");
   AppStorage.setOrCreate('username', "");
+  AppStorage.setOrCreate('itemList', []);
+  AppStorage.setOrCreate('todayCost', 0);
 }
