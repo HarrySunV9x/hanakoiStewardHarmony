@@ -1,6 +1,6 @@
-import { CommonConstants } from "../common/CommonConstants"
+import { CommonConstants } from "../CommonConstants"
 import { promptAction, router } from "@kit.ArkUI";
-import { loginRequest } from "../common/NetWork";
+import { loginRequest } from "./LoginNetWork";
 import { connection } from "@kit.NetworkKit";
 import { BusinessError } from "@kit.BasicServicesKit";
 import { hilog } from "@kit.PerformanceAnalysisKit";
