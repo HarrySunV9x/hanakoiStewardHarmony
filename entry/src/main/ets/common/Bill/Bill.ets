@@ -68,7 +68,7 @@ export struct Bill {
           .fontWeight('bolder')
           .renderingStrategy(SymbolRenderingStrategy.SINGLE)
           .fontColor([Color.Black, Color.Green, Color.White])
-      }.width('100%').height('10%').backgroundColor(0xF5DEB3)
+      }.width('100%').height('10%')
 
       Column() {
         List() {
@@ -91,7 +91,7 @@ export struct Bill {
         }
         .scrollBar(BarState.Auto)
 
-      }.width('100%').height('88%').backgroundColor(0xF5DEB3).padding(5)
+      }.width('100%').height('88%').padding(5)
     }.width('100%').padding(5)
   }
 }

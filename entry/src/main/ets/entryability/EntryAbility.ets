@@ -1,6 +1,7 @@
 import { AbilityConstant, UIAbility, Want } from '@kit.AbilityKit';
 import { hilog } from '@kit.PerformanceAnalysisKit';
 import { window } from '@kit.ArkUI';
+import { BusinessError } from '@kit.BasicServicesKit';
 
 export default class EntryAbility extends UIAbility {
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
@@ -14,6 +15,27 @@ export default class EntryAbility extends UIAbility {
   onWindowStageCreate(windowStage: window.WindowStage): void {
     // Main window is created, set main page for this ability
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onWindowStageCreate');
+
+    let windowClass: window.Window = windowStage.getMainWindowSync(); // 获取应用主窗口
+    // 1. 设置窗口全屏
+    let isLayoutFullScreen = true;
+    windowClass.setWindowLayoutFullScreen(isLayoutFullScreen).then(() => {
+      console.info('Succeeded in setting the window layout to full-screen mode.');
+    }).catch((err: BusinessError) => {
+      console.error(`Failed to set the window layout to full-screen mode. Code is ${err.code}, message is ${err.message}`);
+    });
+    // // 设置状态栏隐藏
+    // windowClass.setSpecificSystemBarEnabled('status', false).then(() => {
+    //   console.info('Succeeded in setting the status bar to be invisible.');
+    // }).catch((err: BusinessError) => {
+    //   console.error(`Failed to set the status bar to be invisible. Code is ${err.code}, message is ${err.message}`);
+    // });
+    // 2. 设置导航条隐藏
+    windowClass.setSpecificSystemBarEnabled('navigationIndicator', false).then(() => {
+      console.info('Succeeded in setting the navigation indicator to be invisible.');
+    }).catch((err: BusinessError) => {
+      console.error(`Failed to set the navigation indicator to be invisible. Code is ${err.code}, message is ${err.message}`);
+    });
 
     windowStage.loadContent('pages/Index', (err) => {
       if (err.code) {

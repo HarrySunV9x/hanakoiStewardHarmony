@@ -21,18 +21,19 @@ struct Index {
     Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.SpaceBetween, alignItems: ItemAlign.Center }) {
       Flex({ direction: FlexDirection.Column, justifyContent: FlexAlign.Center, alignItems: ItemAlign.Center }) {
         Login()
-      }.width('90%').height('10%').backgroundColor(0xF5DEB3)
+      }.width('90%').height('10%').backgroundColor(0xFFFFFF).borderRadius(10)
 
       Flex({ direction: FlexDirection.Column }) {
 
-      }.width('90%').height('20%').backgroundColor(0xF5DEB3)
+      }.width('90%').height('20%').backgroundColor(0xFFFFFF).borderRadius(10)
 
       Flex({ direction: FlexDirection.Column }) {
         Bill()
-      }.width('90%').height('60%').backgroundColor(0xF5DEB3)
+      }.width('90%').height('60%').backgroundColor(0xFFFFFF).borderRadius(10)
     }
     .height('100%')
     .width('100%')
     .padding(20)
+    .backgroundColor(0xF2F2F2)
   }
 }
