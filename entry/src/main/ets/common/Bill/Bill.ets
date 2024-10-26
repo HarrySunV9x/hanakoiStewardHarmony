@@ -1,5 +1,6 @@
 import { BillData, billRequest } from "./BillNetwork";
 import { HashMap } from "@kit.ArkTS";
+import { AddBillDialog } from "./BillDialog";
 
 let billTypeMap = new HashMap<number, string>();
 billTypeMap.set(0, '早餐');
@@ -21,6 +22,28 @@ export struct Bill {
   @StorageLink('username') username: string = '';
   @StorageLink('itemList') itemList: BillData[] = [];
   @StorageLink('todayCost') todayCost: number = 0;
+  dialogController: CustomDialogController | null = new CustomDialogController({
+    builder: AddBillDialog({}),
+    cancel: () => {
+      console.log("dialog cancel")
+    },
+    autoCancel: true,
+    onWillDismiss: (dismissDialogAction: DismissDialogAction) => {
+      console.info("reason=" + JSON.stringify(dismissDialogAction.reason))
+      console.log("dialog onWillDismiss")
+      if (dismissDialogAction.reason == DismissReason.PRESS_BACK) {
+        dismissDialogAction.dismiss()
+      }
+      if (dismissDialogAction.reason == DismissReason.TOUCH_OUTSIDE) {
+        dismissDialogAction.dismiss()
+      }
+    },
+    alignment: DialogAlignment.Center,
+    offset: { dx: 0, dy: -20 },
+    gridCount: 4,
+    customStyle: false,
+    cornerRadius: 10,
+  })
 
   aboutToAppear(): void {
     billRequest(this.username, this.loginToken)
@@ -35,6 +58,11 @@ export struct Bill {
           .fontWeight('bolder')
           .renderingStrategy(SymbolRenderingStrategy.SINGLE)
           .fontColor([Color.Black, Color.Green, Color.White])
+          .onClick(() => {
+            if (this.dialogController != null) {
+              this.dialogController.open()
+            }
+          })
         SymbolGlyph($r('sys.symbol.more'))
           .fontSize(20)
           .fontWeight('bolder')

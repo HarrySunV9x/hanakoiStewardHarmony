@@ -54,13 +54,8 @@ export struct LoginDialog {
       });
       return false
     }
-    // AppStorage.setOrCreate('isLogin', true);
-    // router.pushUrl({
-    //   url: 'pages/Index'
-    // });
     loginRequest(this.inputContent, this.password)
     return true
-
   }
   build() {
     Column() {

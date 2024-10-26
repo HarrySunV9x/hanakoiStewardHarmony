@@ -1,6 +1,7 @@
 import { http } from '@kit.NetworkKit';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { loginUrl } from '../URL';
+import { billRequest } from '../Bill/BillNetwork';
 
 interface Record {
   avatar: string;
@@ -51,6 +52,7 @@ export function loginRequest(username: string, password: string) {
         const responseData: ResponseData = JSON.parse(resultString);
         AppStorage.setOrCreate('loginToken', responseData.token);
         AppStorage.setOrCreate('username', responseData.record.username);
+        billRequest(responseData.record.username, responseData.token)
       }
       httpRequest.destroy();
     } else {
