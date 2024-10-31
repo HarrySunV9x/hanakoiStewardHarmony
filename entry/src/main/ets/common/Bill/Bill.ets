@@ -1,8 +1,9 @@
 import { BillData, billRequest } from "./BillNetwork";
 import { HashMap } from "@kit.ArkTS";
 import { AddBillDialog } from "./BillDialog";
+import { router } from "@kit.ArkUI";
 
-let billTypeMap = new HashMap<number, string>();
+export let billTypeMap = new HashMap<number, string>();
 billTypeMap.set(0, '早餐');
 billTypeMap.set(1, '午餐');
 billTypeMap.set(2, '晚餐');
@@ -68,6 +69,17 @@ export struct Bill {
           .fontWeight('bolder')
           .renderingStrategy(SymbolRenderingStrategy.SINGLE)
           .fontColor([Color.Black, Color.Green, Color.White])
+          .onClick(()=>{
+            router.pushUrl({
+              url: 'pages/BillDetail' // 目标url
+            }, router.RouterMode.Standard, (err) => {
+              if (err) {
+                console.error(`Invoke pushUrl failed, code is ${err.code}, message is ${err.message}`);
+                return;
+              }
+              console.info('Invoke pushUrl succeeded.');
+            });
+          })
       }.width('100%').height('10%')
 
       Column() {

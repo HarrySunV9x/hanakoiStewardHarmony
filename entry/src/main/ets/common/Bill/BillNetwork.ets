@@ -1,6 +1,6 @@
 import { http } from '@kit.NetworkKit';
 import { BusinessError } from '@kit.BasicServicesKit';
-import { getBillUrl } from '../URL';
+import { getTodayBillUrl } from '../URL';
 
 export interface BillData {
   amount: number; // 账单金额
@@ -32,7 +32,7 @@ export function billRequest(username: string, token: string) {
     console.info('header: ' + JSON.stringify(header));
   });
   httpRequest.request(
-    getBillUrl(username),
+    getTodayBillUrl(username),
     {
       method: http.RequestMethod.GET,
       header: {
@@ -47,7 +47,6 @@ export function billRequest(username: string, token: string) {
       usingProxy: false,
     }, (err: BusinessError, data: http.HttpResponse) => {
     if (!err) {
-      console.log("harry: " + JSON.stringify(data.result))
       const resultString = data.result;
       if (typeof resultString === 'string') {
         const responseData: ResponseData = JSON.parse(resultString);
