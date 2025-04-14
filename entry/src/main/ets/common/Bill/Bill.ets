@@ -4,16 +4,16 @@ import { AddBillDialog } from "./BillDialog";
 import { router } from "@kit.ArkUI";
 
 export let billTypeMap = new HashMap<number, string>();
-billTypeMap.set(0, '早餐');
-billTypeMap.set(1, '午餐');
-billTypeMap.set(2, '晚餐');
-billTypeMap.set(3, '夜宵');
-billTypeMap.set(4, '零食');
-billTypeMap.set(5, '交通');
-billTypeMap.set(6, '娱乐');
-billTypeMap.set(7, '购物');
-billTypeMap.set(8, '水电');
-billTypeMap.set(9, '其他');
+billTypeMap.set(1, '早餐');
+billTypeMap.set(2, '午餐');
+billTypeMap.set(3, '晚餐');
+billTypeMap.set(4, '夜宵');
+billTypeMap.set(5, '零食');
+billTypeMap.set(6, '交通');
+billTypeMap.set(7, '娱乐');
+billTypeMap.set(8, '购物');
+billTypeMap.set(9, '水电');
+billTypeMap.set(10, '其他');
 
 @Entry
 @Component
