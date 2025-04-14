@@ -41,6 +41,29 @@ export function allBillRequest(username: string, token: string) {
   );
 }
 
+@Component
+struct BillItem {
+  @Prop item: BillData;
+
+  build() {
+    ListItem() {
+      Flex({
+        direction: FlexDirection.Row,
+        justifyContent: FlexAlign.SpaceBetween,
+        alignItems: ItemAlign.Center
+      }) {
+        Text(billTypeMap.get(this.item.categoryId)).width('15%')
+        Text(this.item.userName).width('25%')
+        Text(parseFloat(this.item.amount.toString()).toFixed(2).toString()).width('15%').textAlign(TextAlign.End)
+        Text('').width('2%')
+        Text('元').width('5%')
+        Text('').width('8%')
+        Text(this.item.description).width('40%')
+      }
+    }.margin({ top: 5, bottom: 5 })
+  }
+}
+
 @Entry
 @Component
 struct BillDetail {
@@ -57,21 +80,7 @@ struct BillDetail {
     Column() {
       List() {
         ForEach(this.allBillList, (item: BillData) => {
-          ListItem() {
-            Flex({
-              direction: FlexDirection.Row,
-              justifyContent: FlexAlign.SpaceBetween,
-              alignItems: ItemAlign.Center
-            }) {
-              Text(billTypeMap.get(item.categoryId)).width('15%')
-              Text(item.userName).width('25%')
-              Text(parseFloat(item.amount.toString()).toFixed(2).toString()).width('15%').textAlign(TextAlign.End)
-              Text('').width('2%')
-              Text('元').width('5%')
-              Text('').width('8%')
-              Text(item.description).width('40%')
-            }
-          }.margin({ top: 5, bottom: 5 })
+          BillItem({ item: item })
         }, (item: BillData) => JSON.stringify(item))
       }
       .scrollBar(BarState.Auto)
