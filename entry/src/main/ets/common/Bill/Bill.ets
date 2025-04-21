@@ -49,7 +49,7 @@ export struct Bill {
 
   aboutToAppear(): void {
     billRequest(this.username, this.loginToken)
-    allBillRequest(this.username, this.loginToken)
+    allBillRequest(this.loginToken)
   }
 
   build() {

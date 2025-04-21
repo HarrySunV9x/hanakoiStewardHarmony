@@ -2,7 +2,7 @@
 // 需根据自己配置的数据库自定义
 export const loginUrl = "http://xxx/api/collections/users/auth-with-password"
 export const billBaseURL = "http://xxx/api/collections/Bill/records";
-
+export const DaysBaseURL = "http://xxx/api/collections/DaysMatter/records";
 function getToday() {
   const calendar = new Date();
   const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
@@ -41,9 +41,15 @@ export function getTodayBillUrl(username: string) {
   return `${billBaseURL}?filter=${billFilter}&perPage=${billPerPage}&sort=${billSort}`;
 }
 
-export function getAllBillUrl(username: string) {
+export function getAllBillUrl() {
   const billPerPage = encodeURIComponent("9999");
   const billSort = encodeURIComponent("-transactionDate");
 
   return `${billBaseURL}?perPage=${billPerPage}&sort=${billSort}`;
+}
+
+export function getDaysMatterURL() {
+  const DaysPerPage = encodeURIComponent("9999");
+
+  return `${DaysBaseURL}?perPage=${DaysPerPage}`;
 }

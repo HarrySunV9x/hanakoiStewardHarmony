@@ -6,6 +6,7 @@ import { hilog } from "@kit.PerformanceAnalysisKit";
 import { http } from '@kit.NetworkKit';
 import { billBaseURL } from '../URL';
 import { billRequest } from "./BillNetwork";
+import { allBillRequest } from "../../pages/BillDetail";
 
 function judgeHasNet(): boolean {
   try {
@@ -44,6 +45,9 @@ function addBill(username: string, token: string, categoryId: number, amount: nu
   selectedDate: Date, selectedTime: Date) {
   let httpRequest = http.createHttp();
   const date = `${selectedDate.toISOString().substring(0, 10)} ${selectedTime.toISOString().substring(11, 23)}Z`
+  if (categoryId == undefined) {
+    categoryId = 0
+  }
   httpRequest.on('headersReceive', (header) => {
     console.info('header: ' + JSON.stringify(header));
   });
@@ -74,6 +78,7 @@ function addBill(username: string, token: string, categoryId: number, amount: nu
     if (!err) {
       console.log(JSON.stringify(data.result))
       billRequest(username, token)
+      allBillRequest(token)
       httpRequest.destroy();
     } else {
       console.error('error:' + JSON.stringify(err));
@@ -182,7 +187,7 @@ export struct AddBillDialog {
         TextPicker({ range: this.category, selected: 0 })
           .onChange((value: string | string[], index: number | number[]) => {
             if (typeof index === 'number') {
-              this.categoryId = index + 1;
+              this.categoryId = index;
             }
           })
           .disappearTextStyle({ color: Color.Red, font: { size: 5, weight: FontWeight.Lighter } })
@@ -214,7 +219,7 @@ export struct AddBillDialog {
         Button('确认')
           .onClick(() => {
             if (this.controller != undefined) {
-              addBill(this.username, this.loginToken, this.categoryId, this.amount, this.description, this.selectedDate,
+              addBill(this.username, this.loginToken, this.categoryId + 1, this.amount, this.description, this.selectedDate,
                 this.selectedTime);
               this.controller.close()
             }

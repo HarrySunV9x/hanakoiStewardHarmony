@@ -1,4 +1,5 @@
 import { Bill } from '../common/Bill/Bill';
+import { DaysMatter } from '../common/DaysMatter/DaysMatter';
 import { Login } from '../common/Login/Login';
 
 // 持久化状态, https://developer.huawei.com/consumer/cn/doc/harmonyos-guides-V5/arkts-appstorage-V5
@@ -24,7 +25,7 @@ struct Index {
       }.width('90%').height('10%').backgroundColor(0xFFFFFF).borderRadius(10)
 
       Flex({ direction: FlexDirection.Column }) {
-
+        DaysMatter()
       }.width('90%').height('20%').backgroundColor(0xFFFFFF).borderRadius(10)
 
       Flex({ direction: FlexDirection.Column }) {

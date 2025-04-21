@@ -20,7 +20,7 @@ import { billTypeMap } from "../common/Bill/Bill";
  * @param username 用户名
  * @param token 用户认证令牌
  */
-export function allBillRequest(username: string, token: string) {
+export function allBillRequest(token: string) {
   // 创建HTTP请求实例
   let httpRequest = http.createHttp();
 
@@ -31,7 +31,7 @@ export function allBillRequest(username: string, token: string) {
   
   // 发起HTTP请求获取账单数据
   httpRequest.request(
-    getAllBillUrl(username),
+    getAllBillUrl(),
     {
       method: http.RequestMethod.GET,
       header: {

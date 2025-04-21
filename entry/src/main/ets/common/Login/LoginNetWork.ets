@@ -3,6 +3,7 @@ import { BusinessError } from '@kit.BasicServicesKit';
 import { loginUrl } from '../URL';
 import { billRequest } from '../Bill/BillNetwork';
 import { allBillRequest } from '../../pages/BillDetail';
+import { daysMatterRequest } from '../DaysMatter/DaysMatterNetwork';
 
 interface Record {
   avatar: string;
@@ -54,7 +55,8 @@ export function loginRequest(username: string, password: string) {
         AppStorage.setOrCreate('loginToken', responseData.token);
         AppStorage.setOrCreate('username', responseData.record.username);
         billRequest(responseData.record.username, responseData.token)
-        allBillRequest(responseData.record.username, responseData.token)
+        allBillRequest(responseData.token)
+        daysMatterRequest(responseData.token)
       }
       httpRequest.destroy();
     } else {
