@@ -182,7 +182,7 @@ export struct AddBillDialog {
         TextPicker({ range: this.category, selected: 0 })
           .onChange((value: string | string[], index: number | number[]) => {
             if (typeof index === 'number') {
-              this.categoryId = index;
+              this.categoryId = index + 1;
             }
           })
           .disappearTextStyle({ color: Color.Red, font: { size: 5, weight: FontWeight.Lighter } })
