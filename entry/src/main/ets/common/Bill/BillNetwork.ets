@@ -62,7 +62,6 @@ export function billRequest(username: string, token: string) {
       }
       httpRequest.destroy();
     } else {
-      console.log("harry: " + JSON.stringify(err))
       console.error('error:' + JSON.stringify(err));
       httpRequest.off('headersReceive');
       httpRequest.destroy();

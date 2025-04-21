@@ -2,6 +2,7 @@ import { http } from '@kit.NetworkKit';
 import { BusinessError } from '@kit.BasicServicesKit';
 import { loginUrl } from '../URL';
 import { billRequest } from '../Bill/BillNetwork';
+import { allBillRequest } from '../../pages/BillDetail';
 
 interface Record {
   avatar: string;
@@ -53,6 +54,7 @@ export function loginRequest(username: string, password: string) {
         AppStorage.setOrCreate('loginToken', responseData.token);
         AppStorage.setOrCreate('username', responseData.record.username);
         billRequest(responseData.record.username, responseData.token)
+        allBillRequest(responseData.record.username, responseData.token)
       }
       httpRequest.destroy();
     } else {
@@ -70,4 +72,5 @@ export function loginOut() {
   AppStorage.setOrCreate('username', "");
   AppStorage.setOrCreate('itemList', []);
   AppStorage.setOrCreate('todayCost', 0);
+  AppStorage.setOrCreate('allBillList', []);
 }

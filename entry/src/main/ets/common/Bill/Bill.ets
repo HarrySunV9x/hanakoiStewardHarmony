@@ -2,6 +2,7 @@ import { BillData, billRequest } from "./BillNetwork";
 import { HashMap } from "@kit.ArkTS";
 import { AddBillDialog } from "./BillDialog";
 import { router } from "@kit.ArkUI";
+import { allBillRequest } from "../../pages/BillDetail";
 
 export let billTypeMap = new HashMap<number, string>();
 billTypeMap.set(1, '早餐');
@@ -48,6 +49,7 @@ export struct Bill {
 
   aboutToAppear(): void {
     billRequest(this.username, this.loginToken)
+    allBillRequest(this.username, this.loginToken)
   }
 
   build() {
