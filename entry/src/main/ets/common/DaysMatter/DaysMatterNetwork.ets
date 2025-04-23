@@ -45,9 +45,11 @@ export function daysMatterRequest(token: string) {
       const resultString = data.result;
       if (typeof resultString === 'string') {
         const responseData: ResponseData = JSON.parse(resultString);
+        if (responseData.items.length === 0) {
+          return
+        }
         const random = Math.floor(Math.random() * (responseData.items.length));
         AppStorage.setOrCreate('daysMatter', responseData.items[random]);
-
         const targetDateStr = responseData.items[random].date.substring(0, 10)
         const today = new Date();
         const currentYear = today.getUTCFullYear();

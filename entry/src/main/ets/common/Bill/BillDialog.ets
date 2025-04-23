@@ -41,10 +41,20 @@ interface GeneratedObjectLiteralInterface_1 {
   selectedTime: Date;
 }
 
+function pad(n: number):string {
+  return n.toString().padStart(2, '0');
+}
+
 function addBill(username: string, token: string, categoryId: number, amount: number, description: string,
   selectedDate: Date, selectedTime: Date) {
   let httpRequest = http.createHttp();
-  const date = `${selectedDate.toISOString().substring(0, 10)} ${selectedTime.toISOString().substring(11, 23)}Z`
+
+  // 生成本地日期时间字符串（格式：YYYY-MM-DD HH:mm:ss.SSS+08:00）
+  const localDateStr = `${selectedDate.getFullYear()}-${pad(selectedDate.getMonth() + 1)}-${pad(selectedDate.getDate())}`;
+  const localTimeStr = `${pad(selectedTime.getHours())}:${pad(selectedTime.getMinutes())}:${pad(selectedTime.getSeconds())}.${selectedTime.getMilliseconds().toString().padStart(3, '0')}`;
+  // 拼接结果（显式指定时区）
+  const date = `${localDateStr} ${localTimeStr}Z`;
+
   if (categoryId == undefined) {
     categoryId = 0
   }
